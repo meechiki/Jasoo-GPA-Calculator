@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>เครื่องคำนวณ GPA สำหรับสมัครทุน JASSO</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+Thai:wght@400;500;600;700&family=Noto+Sans+Thai:wght@400;500;600&family=Zen+Old+Mincho:wght@500;700&display=swap');
+
+  :root{
+    --paper:#F6F2E9;
+    --paper-2:#EFE9DB;
+    --ink:#20242B;
+    --ink-soft:#565349;
+    --line:#D9D0BC;
+    --hanko:#A8341F;
+    --hanko-soft:#F3E1DC;
+    --seal-gold:#8C7A3E;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Noto Sans Thai', sans-serif;
+    line-height:1.7;
+  }
+  .wrap{max-width:760px;margin:0 auto;padding:56px 24px 96px;}
+
+  header{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    border-bottom:2px solid var(--ink);
+    padding-bottom:20px;
+    margin-bottom:8px;
+  }
+  .kicker{
+    font-family:'Zen Old Mincho', serif;
+    font-size:13px;
+    letter-spacing:.18em;
+    color:var(--hanko);
+    margin:0 0 6px;
+  }
+  h1{
+    font-family:'Noto Serif Thai', serif;
+    font-weight:700;
+    font-size:30px;
+    margin:0;
+    color:var(--ink);
+  }
+  .seal{
+    width:52px;height:52px;flex:none;
+    border:2px solid var(--hanko);
+    border-radius:6px;
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Zen Old Mincho', serif;
+    font-size:20px;color:var(--hanko);
+    transform:rotate(-3deg);
+  }
+  .sub{color:var(--ink-soft);font-size:14.5px;margin:14px 0 40px;}
+
+  .scale-row{
+    display:flex;gap:10px;align-items:center;
+    margin-bottom:28px;flex-wrap:wrap;
+  }
+  .scale-row label{font-size:13.5px;color:var(--ink-soft);}
+  select{
+    font-family:'Noto Sans Thai',sans-serif;
+    background:var(--paper-2);
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:8px 12px;
+    font-size:14px;
+    color:var(--ink);
+  }
+
+  table{width:100%;border-collapse:collapse;margin-bottom:14px;}
+  thead th{
+    text-align:left;
+    font-size:12px;
+    letter-spacing:.06em;
+    color:var(--ink-soft);
+    font-weight:600;
+    padding:0 8px 10px;
+    border-bottom:1px solid var(--ink);
+  }
+  tbody td{padding:7px 8px;vertical-align:middle;}
+  tbody tr{border-bottom:1px solid var(--line);}
+  tbody input, tbody select{
+    width:100%;
+    border:1px solid var(--line);
+    background:#fff;
+    border-radius:5px;
+    padding:8px 9px;
+    font-size:14.5px;
+    font-family:'Noto Sans Thai',sans-serif;
+    color:var(--ink);
+  }
+  tbody input[type="text"]{min-width:120px;}
+  tbody input[type="number"]{width:72px;}
+  .col-grade select{min-width:78px;}
+  .rm-btn{
+    background:none;border:none;cursor:pointer;
+    color:var(--ink-soft);font-size:18px;line-height:1;padding:4px 8px;
+  }
+  .rm-btn:hover{color:var(--hanko);}
+
+  .row-actions{display:flex;justify-content:space-between;align-items:center;margin:18px 0 44px;}
+  .add-btn{
+    font-family:'Noto Sans Thai',sans-serif;
+    background:var(--paper-2);
+    border:1px dashed var(--ink-soft);
+    border-radius:6px;
+    padding:9px 16px;
+    font-size:14px;
+    color:var(--ink);
+    cursor:pointer;
+  }
+  .add-btn:hover{border-color:var(--hanko);color:var(--hanko);}
+  .total-credits{font-size:13.5px;color:var(--ink-soft);}
+
+  .result{
+    background:var(--ink);
+    color:var(--paper);
+    border-radius:12px;
+    padding:36px 32px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+    flex-wrap:wrap;
+  }
+  .result-left p{margin:0 0 6px;font-size:13px;letter-spacing:.05em;color:#C8C2AF;}
+  .gpa-num{
+    font-family:'Zen Old Mincho', serif;
+    font-size:56px;
+    line-height:1;
+    color:var(--paper);
+  }
+  .gpa-scale{font-size:16px;color:#C8C2AF;margin-left:6px;}
+  .jasso-note{
+    font-size:13px;
+    color:#C8C2AF;
+    max-width:260px;
+    text-align:right;
+  }
+  .jasso-note strong{color:var(--paper);}
+
+  footer{margin-top:36px;font-size:12.5px;color:var(--ink-soft);text-align:center;}
+  footer a{color:var(--hanko);}
+
+  @media(max-width:560px){
+    .wrap{padding:36px 16px 64px;}
+    h1{font-size:24px;}
+    thead th:nth-child(1){display:none;}
+    .result{flex-direction:column;align-items:flex-start;}
+    .jasso-note{text-align:left;max-width:100%;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div>
+      <p class="kicker">GPA CALCULATOR</p>
+      <h1>คำนวณเกรดเฉลี่ยสำหรับสมัครทุน</h1>
+    </div>
+    <div class="seal">計</div>
+  </header>
+  <p class="sub">ใส่รายวิชา เกรด และหน่วยกิตของแต่ละวิชา ระบบจะคำนวณ GPA แบบถ่วงน้ำหนักตามหน่วยกิตให้อัตโนมัติ — ใช้ได้กับทุกช่วงชั้น ไม่จำกัดเฉพาะทุน JASSO</p>
+
+  <div class="scale-row">
+    <label for="scaleSelect">ระบบเกรดที่ใช้</label>
+    <select id="scaleSelect"></select>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width:38%">รายวิชา</th>
+        <th style="width:24%">เกรด</th>
+        <th style="width:18%">หน่วยกิต</th>
+        <th style="width:14%">คะแนนถ่วง</th>
+        <th style="width:6%"></th>
+      </tr>
+    </thead>
+    <tbody id="rows"></tbody>
+  </table>
+
+  <div class="row-actions">
+    <button class="add-btn" id="addRow">+ เพิ่มวิชา</button>
+    <span class="total-credits" id="totalCredits">รวม 0 หน่วยกิต · 0 วิชา</span>
+  </div>
+
+  <div class="result">
+    <div class="result-left">
+      <p>เกรดเฉลี่ยสะสม (GPA)</p>
+      <span class="gpa-num" id="gpaOut">0.00</span><span class="gpa-scale" id="gpaScaleOut">/ 4.00</span>
+    </div>
+    <div class="jasso-note">
+      <strong>หมายเหตุ:</strong> ทุน JASSO และมหาวิทยาลัยญี่ปุ่นส่วนใหญ่ขอ GPA สะสมทุกภาคการศึกษา ตรวจสอบเกณฑ์ขั้นต่ำของแต่ละโครงการอีกครั้งก่อนยื่นสมัคร
+    </div>
+  </div>
+
+  <footer>ผลลัพธ์เป็นการประมาณเพื่อใช้อ้างอิงส่วนตัวเท่านั้น ควรยึดค่า GPA ทางการจากใบทรานสคริปต์ของมหาวิทยาลัย</footer>
+</div>
+
+<script>
+const SCALES = {
+  th4: { label: "ไทย 4 ระดับ (A–F)", max: 4.00,
+    grades: [["A",4.0],["B+",3.5],["B",3.0],["C+",2.5],["C",2.0],["D+",1.5],["D",1.0],["F",0.0]] },
+  th4plus: { label: "ไทย 4 ระดับ (แบบ + เต็ม)", max: 4.00,
+    grades: [["A",4.0],["A-",3.7],["B+",3.3],["B",3.0],["B-",2.7],["C+",2.3],["C",2.0],["C-",1.7],["D+",1.3],["D",1.0],["F",0.0]] },
+  us4: { label: "สหรัฐฯ / สากล 4.00", max: 4.00,
+    grades: [["A",4.0],["A-",3.7],["B+",3.3],["B",3.0],["B-",2.7],["C+",2.3],["C",2.0],["C-",1.7],["D+",1.3],["D",1.0],["D-",0.7],["F",0.0]] },
+  jp5: { label: "ญี่ปุ่น 5 ระดับ (Shusha)", max: 4.00,
+    grades: [["秀 (S)",4.0],["優 (A)",3.0],["良 (B)",2.0],["可 (C)",1.0],["不可 (F)",0.0]] }
+};
+
+let currentScale = "th4";
+let rows = [
+  { subject:"", grade:"", credit:3 },
+  { subject:"", grade:"", credit:3 },
+  { subject:"", grade:"", credit:3 }
+];
+
+const scaleSelect = document.getElementById("scaleSelect");
+const rowsBody = document.getElementById("rows");
+const gpaOut = document.getElementById("gpaOut");
+const gpaScaleOut = document.getElementById("gpaScaleOut");
+const totalCredits = document.getElementById("totalCredits");
+
+Object.entries(SCALES).forEach(([key,s])=>{
+  const opt = document.createElement("option");
+  opt.value = key; opt.textContent = s.label;
+  scaleSelect.appendChild(opt);
+});
+scaleSelect.value = currentScale;
+scaleSelect.addEventListener("change", e=>{
+  currentScale = e.target.value;
+  rows.forEach(r=>r.grade="");
+  render();
+});
+
+function gradeOptionsHTML(selected){
+  const scale = SCALES[currentScale];
+  let html = '<option value="">เลือกเกรด</option>';
+  scale.grades.forEach(([label,pts])=>{
+    html += `<option value="${label}" ${label===selected?"selected":""}>${label} (${pts.toFixed(2)})</option>`;
+  });
+  return html;
+}
+
+function pointsFor(gradeLabel){
+  const scale = SCALES[currentScale];
+  const found = scale.grades.find(g=>g[0]===gradeLabel);
+  return found ? found[1] : null;
+}
+
+function render(){
+  rowsBody.innerHTML = "";
+  rows.forEach((row,i)=>{
+    const tr = document.createElement("tr");
+    const pts = pointsFor(row.grade);
+    const weighted = (pts!==null && row.credit) ? (pts*row.credit).toFixed(2) : "—";
+    tr.innerHTML = `
+      <td><input type="text" placeholder="เช่น แคลคูลัส 1" value="${row.subject.replace(/"/g,'&quot;')}" data-i="${i}" data-f="subject"></td>
+      <td class="col-grade"><select data-i="${i}" data-f="grade">${gradeOptionsHTML(row.grade)}</select></td>
+      <td><input type="number" min="0" step="0.5" value="${row.credit}" data-i="${i}" data-f="credit"></td>
+      <td style="color:var(--ink-soft);font-size:13.5px;">${weighted}</td>
+      <td><button class="rm-btn" data-i="${i}" aria-label="ลบวิชา">×</button></td>
+    `;
+    rowsBody.appendChild(tr);
+  });
+
+  rowsBody.querySelectorAll("input, select").forEach(el=>{
+    el.addEventListener("input", e=>{
+      const i = +e.target.dataset.i, f = e.target.dataset.f;
+      rows[i][f] = f==="credit" ? (parseFloat(e.target.value)||0) : e.target.value;
+      compute();
+      if(f!=="subject") render(); else updateWeightedCells();
+    });
+  });
+  rowsBody.querySelectorAll(".rm-btn").forEach(btn=>{
+    btn.addEventListener("click", e=>{
+      rows.splice(+e.target.dataset.i,1);
+      render(); compute();
+    });
+  });
+
+  compute();
+}
+
+function updateWeightedCells(){
+  const cells = rowsBody.querySelectorAll("tr");
+  cells.forEach((tr,i)=>{
+    const pts = pointsFor(rows[i].grade);
+    const weighted = (pts!==null && rows[i].credit) ? (pts*rows[i].credit).toFixed(2) : "—";
+    tr.children[3].textContent = weighted;
+  });
+}
+
+function compute(){
+  let totalPoints = 0, totalCr = 0, counted = 0;
+  rows.forEach(r=>{
+    const pts = pointsFor(r.grade);
+    if(pts!==null && r.credit>0){
+      totalPoints += pts*r.credit;
+      totalCr += r.credit;
+      counted++;
+    }
+  });
+  const gpa = totalCr>0 ? (totalPoints/totalCr) : 0;
+  gpaOut.textContent = gpa.toFixed(2);
+  gpaScaleOut.textContent = `/ ${SCALES[currentScale].max.toFixed(2)}`;
+  totalCredits.textContent = `รวม ${totalCr} หน่วยกิต · ${rows.length} วิชา`;
+}
+
+document.getElementById("addRow").addEventListener("click", ()=>{
+  rows.push({ subject:"", grade:"", credit:3 });
+  render();
+});
+
+render();
+</script>
+</body>
+</html>
