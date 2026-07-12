@@ -10,7 +10,7 @@ program's official announcement for the exact minimum GPA required.
 
 ## Usage
 
-Open `index.html` in a browser (https://claude.ai/public/artifacts/628d0ba3-651b-4dcd-bf50-6928e320b44f).
+Open `index.html` in a browser or (https://claude.ai/public/artifacts/628d0ba3-651b-4dcd-bf50-6928e320b44f).
 
 - Paste grades separated by spaces or commas (e.g. `A B+ C- D A- A B C+ F`)
 - Adjust credits per course if needed
