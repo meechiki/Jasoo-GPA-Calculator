@@ -1,32 +1,63 @@
 # Jasoo GPA Calculator
 
-A simple, unofficial tool for calculating GPA with per-subject credit weighting.
-Built as a reference for students preparing scholarship applications (e.g. JASSO
-and other Japan-bound programs), but usable by anyone who needs a weighted GPA.
+Jasoo GPA Calculator เป็นเครื่องมือคำนวณ GPA แบบไม่เป็นทางการ ที่คำนวณเกรดเฉลี่ยโดยถ่วงน้ำหนักตามหน่วยกิตของแต่ละรายวิชา
 
-**Note:** This is not an official JASSO tool or calculator. Always double-check
-against your program's official announcement for the exact GPA scale and minimum
-required.
+พัฒนาขึ้นเพื่อใช้เป็นเครื่องมืออ้างอิงสำหรับนักศึกษาที่เตรียมสมัครทุนการศึกษา เช่น **JASSO** และโครงการศึกษาต่อประเทศญี่ปุ่นอื่น ๆ รวมถึงผู้ที่ต้องการคำนวณ GPA แบบถ่วงน้ำหนักตามหน่วยกิต
 
-## Usage
+> **หมายเหตุ:** เครื่องมือนี้ **ไม่ใช่** เครื่องคำนวณ GPA อย่างเป็นทางการของ JASSO โปรดอ้างอิงหลักเกณฑ์การคำนวณและคุณสมบัติจากประกาศของโครงการที่สมัครทุกครั้ง
 
-Open `jasso-gpa-calculator.html` in any browser — no install, no server needed.
+---
 
-1. Choose a grading scale from the dropdown:
-   - Thai 4-level (A–F)
-   - Thai 4-level with +/- grades
-   - US / international 4.00 scale
-   - Japanese 5-level (秀優良可不可)
-2. Add a row for each subject with **+ เพิ่มวิชา**.
-3. For each subject, enter the subject name, select its grade, and set its
-   credit hours (defaults to 3, editable per row).
-4. GPA updates automatically, weighted by credit hours across all subjects with
-   both a grade and credit entered.
+## ✨ คุณสมบัติ
 
-## What it does not do (yet)
+- รองรับการคำนวณ GPA แบบถ่วงน้ำหนักตามหน่วยกิต
+- รองรับระบบเกรดหลายรูปแบบ
+  - ระบบเกรดไทย 4 ระดับ (A–F)
+  - ระบบเกรดไทย 4 ระดับแบบมีเครื่องหมาย +/-
+  - ระบบเกรดสากล (US/International) แบบ 4.00
+  - ระบบเกรดญี่ปุ่น 5 ระดับ (秀・優・良・可・不可)
+- คำนวณ GPA แบบเรียลไทม์
+- เพิ่มและลบรายวิชาได้อย่างอิสระ
+- ใช้งานผ่านเว็บเบราว์เซอร์โดยไม่ต้องติดตั้งโปรแกรม
 
-- No bulk-paste input for grades (entry is row-by-row).
-- No pass/fail threshold indicator against a specific minimum GPA.
-- No export to PDF/print layout.
+---
 
-Let me know if you'd like any of these added.
+## 🚀 วิธีใช้งาน
+
+1. เปิดไฟล์ `jasso-gpa-calculator.html` ด้วยเว็บเบราว์เซอร์
+2. เลือกระบบการให้เกรด
+3. กดปุ่ม **+ เพิ่มวิชา**
+4. กรอกชื่อวิชา เลือกเกรด และกำหนดจำนวนหน่วยกิต
+5. ระบบจะคำนวณ GPA โดยอัตโนมัติเมื่อกรอกข้อมูลครบถ้วน
+
+---
+
+## 📋 ข้อจำกัดของระบบ
+
+- ไม่รองรับการวางข้อมูลเกรดหลายรายวิชาพร้อมกัน (Bulk Paste)
+- ไม่มีการแสดงผลว่า GPA ผ่านหรือไม่ผ่านเกณฑ์ขั้นต่ำของทุนหรือโครงการ
+- ไม่รองรับการส่งออกผลลัพธ์เป็น PDF หรือรูปแบบสำหรับการพิมพ์
+
+---
+
+## 🛠️ เทคโนโลยีที่ใช้
+
+- HTML5
+- CSS3
+- Vanilla JavaScript
+
+---
+
+## 📁 โครงสร้างไฟล์
+
+```text
+/
+├── jasso-gpa-calculator.html
+└── README.md
+```
+
+---
+
+## 📄 ใบอนุญาต
+
+โครงการนี้จัดทำขึ้นเพื่อการศึกษาและใช้งานส่วนบุคคล สามารถนำไปศึกษา แก้ไข และพัฒนาต่อยอดได้ โดยไม่ถือเป็นเครื่องมืออย่างเป็นทางการของ JASSO
